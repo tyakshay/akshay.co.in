@@ -49,3 +49,79 @@ Approach
       return target  == 0;   
     }
 }
+
+/**
+ * JumpGame II
+ * Problem : https://leetcode.com/problems/jump-game-ii/description/
+ * You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0].
+
+   Each element nums[i] represents the maximum length of a forward jump from index i. In other words, if you are at nums[i], you can jump to any nums[i + j] where:
+
+   0 <= j <= nums[i] and
+   i + j < n
+   Return the minimum number of jumps to reach nums[n - 1]. The test cases are generated such that you can reach nums[n - 1].
+
+   
+
+   Example 1:
+
+   Input: nums = [2,3,1,1,4]
+   Output: 2
+   Explanation: The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.
+   Example 2:
+
+   Input: nums = [2,3,0,1,4]
+   Output: 2
+ 
+ */
+
+ public int jump(int[] nums) {
+   // If no jumps needed
+   if (nums.length <= 1) return 0;
+   
+   int jumps = 0;       // Jump counter
+   int maxReach = 0;    // Farthest position reachable
+   int nextMaxReach = 0;// Next possible max reach
+   
+   for (int i = 0; i < nums.length - 1; i++) {
+       // Update how far we can reach
+       nextMaxReach = Math.max(nextMaxReach, i + nums[i]);
+       
+       // If we've used all jumps in current range
+       if (i == maxReach) {
+           jumps++;     // Take a jump
+           maxReach = nextMaxReach;
+       }
+   }
+   
+   return jumps;
+}
+
+/**
+        0  1  2  3  4
+   arr [2, 3, 1, 1, 4]
+   i = 0 
+   nextMaxReach , max(0 [initial value], 0 + 2 [nums[i]]) = 2
+   if(i== maxReach) true 
+   jump++ = jump = 1 , nextMaxReach = maxReach = 2.
+   Note: at 0 index, we took first jump
+   From here, we need to check till 2 index how much max jump we can take
+
+   i = 1
+   nextMaxReach = max(2, 1 + 3) = 4
+   if(i == maxReach) false;
+   Note: nextMaxReach is updated here to 4.. 
+
+   i = 2 
+   nextMaxReach = max(4, 2 + 1) = 4
+   if(i == maxReach) true;
+   jump++ = 2
+   maxReach = nextMaxReach = 4
+   Note: this is maxReach of index 0 i.e arr[0] = 2, after reaching here we found out that maxReach is 4, so incresing jump here
+   instead at index 1, because we need to visit all possible jump, then decide which jump will take us farthest/desired point. 
+
+   i = 3 
+   nextMaxReach = 4
+   if(i == maxReach) false
+ */
+
