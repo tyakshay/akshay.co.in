@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * problem: https://leetcode.com/problems/jump-game/
  * Intuition
@@ -125,3 +127,110 @@ Approach
    if(i == maxReach) false
  */
 
+ class JumpGameIIDP {
+   public int jump(int[] nums) {
+       // Handle base cases
+       int n = nums.length;
+       if (n <= 1) return 0;
+       
+       // DP array to store minimum jumps to reach each index
+       int[] dp = new int[n];
+       
+       // Initialize with maximum possible value
+       Arrays.fill(dp, Integer.MAX_VALUE);
+       
+       // Start position always requires 0 jumps
+       dp[0] = 0;
+       
+       // Compute minimum jumps for each position
+       for (int i = 0; i < n; i++) {
+           // For each possible jump from current position
+           for (int j = 1; j <= nums[i] && i + j < n; j++) {
+               // Update minimum jumps to reach next position
+               dp[i + j] = Math.min(dp[i + j], dp[i] + 1);
+           }
+       }
+       
+       // Return minimum jumps to reach last index
+       return dp[n - 1];
+   }
+   
+   // Alternative bottom-up DP approach
+   public int jumpAlternative(int[] nums) {
+       int n = nums.length;
+       if (n <= 1) return 0;
+       
+       // DP array to track minimum jumps
+       int[] dp = new int[n];
+       
+       // Initialize with max value
+       Arrays.fill(dp, Integer.MAX_VALUE - 1);
+       dp[0] = 0;
+       
+       // Bottom-up computation
+       for (int i = 1; i < n; i++) {
+           // Check all previous positions
+           for (int j = 0; j < i; j++) {
+               // If we can jump from j to i
+               if (j + nums[j] >= i) {
+                   dp[i] = Math.min(dp[i], dp[j] + 1);
+               }
+           }
+       }
+       
+       return dp[n - 1];
+   }
+ 
+}
+
+/**
+ 
+### Dynamic Programming Approach Explained
+
+#### Key Concepts
+1. **State Definition**: 
+  - `dp[i]` represents the minimum number of jumps required to reach index `i`
+  - Initial value set to `Integer.MAX_VALUE`
+
+2. **Transition Relationship**:
+  - For each index, explore all possible jumps
+  - Update minimum jumps to reach subsequent positions
+
+#### Approach Breakdown
+
+1. **First DP Solution**:
+  - Iterate through each position
+  - For each position, calculate possible jumps
+  - Update minimum jumps to reach next positions
+  - Time Complexity: O(n²)
+  - Space Complexity: O(n)
+
+2. **Alternative Bottom-Up Approach**:
+  - Start from first index
+  - For each index, check all previous positions
+  - Update minimum jumps if a shorter path is found
+  - Time Complexity: O(n²)
+  - Space Complexity: O(n)
+
+### Comparative Analysis
+
+| Approach | Time Complexity | Space Complexity | Pros | Cons |
+|----------|-----------------|------------------|------|------|
+| Greedy   | O(n)            | O(1)             | Most efficient | Less intuitive |
+| DP (First) | O(n²)         | O(n)             | More straightforward | Less performant |
+| DP (Bottom-Up) | O(n²)     | O(n)             | Comprehensive | Performance overhead |
+
+### Learning Insights
+
+1. DP solutions trade time efficiency for code clarity
+2. Multiple approaches exist for the same problem
+3. Always consider time and space complexity
+4. Choose solution based on specific constraints
+
+### Recommended Practice
+
+1. Implement both solutions
+2. Compare performance
+3. Understand trade-offs
+4. Experiment with different input sizes
+ */
