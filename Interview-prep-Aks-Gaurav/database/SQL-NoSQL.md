@@ -29,12 +29,11 @@ Understanding the difference between **Relational Databases (SQL)** and **NoSQL 
 - Often follows **BASE** properties instead of strict ACID.
 
 ### Examples:
-- MongoDB (Document Store)
-- Cassandra (Wide Column Store)
-- Redis (Key-Value Store)
-- Neo4j (Graph Database)
+- Document DB : MongoDB, Elastic Search
+- Wide Column : Cassandra, Amzon Redsift
+- key-value: Redis, DynamoDB, Aerospike
+- Graph Database - Neo4J, D-graph, chromaDB, Cosmos DB
 
----
 
 ## 3. Key Differences Between SQL and NoSQL
 
